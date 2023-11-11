@@ -1,0 +1,41 @@
+<el-main ref="layoutMainRef" class="layout-main"
+    :style="getThemeConfig.isFixedHeader ? `height: calc(100% - ${setMainHeight})` : `minHeight: calc(100% - ${setMainHeight})`">
+    <el-scrollbar ref="layoutMainScrollbarRef" class="layout-main-scroll layout-backtop-header-fixed"
+        wrap-class="layout-main-scroll" view-class="layout-main-scroll">
+        <!--LayoutParentView-->
+        <div class="layout-parent">
+            <transition :name="setTransitionName" mode="out-in">
+                <div class="w100 layout-padding layout-padding-unset layout-iframe">
+                    <div class="layout-padding-auto layout-padding-view">
+                        <div class="w100" v-for="(v, k) in state.tagsViewList" :key="v.id" v-loading="v.meta.loading"
+                            element-loading-background="white">
+                            <transition-group :name="'iframe-'+k">
+                                <iframe @load="v.meta.loading=false" :ref="
+            (el) => {
+              if (el) iframeRefs[v.id] = el;
+            }
+          " style="position: absolute" v-show="state.activeTabId == v.id" :name="'iframe'+k" width="100%" height="100%"
+                                    :src="v.path" frameborder="0" :data-url="v.path" seamless>
+                                </iframe>
+                            </transition-group>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+        <!--LayoutParentView end-->
+        <!--LayoutFooter-->
+        <div class="layout-footer pb15" v-if="getThemeConfig.isFooter">
+            <div class="layout-footer-warp">
+                <div><a href="https://github.com/hi-tpext/myadmin" target="_blank">tpext-myadmin</a>，Made by LHY
+                    with ❤️
+                    {notempty name="$admin_copyright"}
+                    <span class="ml5">{$admin_copyright|raw}</span>
+                    {/notempty}
+                </div>
+            </div>
+        </div>
+        <!--LayoutFooter end-->
+    </el-scrollbar>
+    <el-backtop :target="setBacktopClass" />
+</el-main>

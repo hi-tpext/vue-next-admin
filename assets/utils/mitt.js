@@ -1,0 +1,1 @@
+window.mittBus = mitt()

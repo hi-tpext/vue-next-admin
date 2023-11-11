@@ -1,0 +1,63 @@
+<div class="h100" v-show="!isTagsViewCurrenFull">
+    <el-aside class="layout-aside" :class="setCollapseStyle">
+        <template
+            v-if="getThemeConfig.isShowLogo  && (getThemeConfig.layout=='defaults' || getThemeConfig.layout=='columns')">
+            <div class="layout-logo" v-if="!state.isCollapse || getThemeConfig.layout=='columns'"
+                @click="onCollapseConfigChange">
+                <span>{$admin_logo|raw|default='admin'}</span>
+            </div>
+            <div class="layout-logo-size" v-else @click="onCollapseConfigChange">
+                <img src="/assets/elementplus/logo/logo-mini.svg" class="layout-logo-size-img" />
+            </div>
+        </template>
+        <el-scrollbar class="flex-auto" ref="layoutAsideScrollbarRef" @mouseenter="onAsideEnterLeave(true)"
+            @mouseleave="onAsideEnterLeave(false)">
+            <!--Vertical-->
+            <el-menu :default-active="state.activeTabId" :unique-opened="getThemeConfig.isUniqueOpened" background-color="transparent"
+                :collapse-transition="false" :collapse="state.isCollapse" @select="leftMenuSelect">
+                <template v-for="(item, index) in state.leftMenu">
+                    <el-sub-menu :default-active="activeTabId"
+                        v-show="getThemeConfig.layout!='columns' || (item.pid == state.topActiveId && state.topHoverId==-1) || item.pid == state.topHoverId"
+                        v-if="item.children && item.children.length" :index="item.id" :key="item.id">
+                        <template #title>
+                            <i class="iconfont" :class="item.icon"></i>
+                            <span @contextmenu.prevent="stopDefault">{{item.name}}</span>
+                        </template>
+                        <template v-for="(subitem1, index) in item.children">
+                            <el-sub-menu v-if="subitem1.children && subitem1.children.length" :index="subitem1.id">
+                                <template #title>
+                                    <i class="iconfont" :class="subitem1.icon"></i>
+                                    <span @contextmenu.prevent="stopDefault">{{subitem1.name}}</span>
+                                </template>
+                                <template v-for="(subitem2, index) in subitem1.children">
+                                    <el-sub-menu v-if="subitem2.children && subitem2.children.length"
+                                        :index="subitem2.id">
+                                        <template #title>
+                                            <i class="iconfont" :class="subitem2.icon"></i>
+                                            <span @contextmenu.prevent="stopDefault">{{subitem2.name}}</span>
+                                        </template>
+                                    </el-sub-menu>
+                                    <el-menu-item v-else :index="subitem2.id">
+                                        <i class="iconfont" :class="subitem2.icon"></i>
+                                        <span @contextmenu.prevent="stopDefault">{{subitem2.name}}</span>
+                                    </el-menu-item>
+                                </template>
+                            </el-sub-menu>
+                            <el-menu-item v-else :index="subitem1.id">
+                                <i class="iconfont" :class="subitem1.icon"></i>
+                                <span @contextmenu.prevent="stopDefault">{{subitem1.name}}</span>
+                            </el-menu-item>
+                        </template>
+                    </el-sub-menu>
+                    <el-menu-item v-else
+                        v-show="getThemeConfig.layout!='columns' || (item.pid == state.topActiveId && state.topHoverId==-1) || item.pid == state.topHoverId"
+                        :index="item.id" :key="item.id">
+                        <i class="iconfont" :class="item.icon"></i>
+                        <span @contextmenu.prevent="stopDefault">{{item.name}}</span>
+                    </el-menu-item>
+                </template>
+            </el-menu>
+            <!--Vertical end-->
+        </el-scrollbar>
+    </el-aside>
+</div>

@@ -1,0 +1,46 @@
+<div class="el-menu-horizontal-warp">
+    <el-menu :default-active="state.activeTabId" :unique-opened="getThemeConfig.isUniqueOpened" background-color="transparent" mode="horizontal"
+        @select="leftMenuSelect">
+        <template v-for="(item, index) in state.leftMenu">
+            <el-sub-menu v-show="getThemeConfig.layout!='columns' || item.pid == state.topActiveId"
+                v-if="item.children && item.children.length" popper-class="cl-slider-menu__submenu" :index="item.id"
+                :key="item.id">
+                <template #title>
+                    <i class="iconfont" :class="item.icon"></i>
+                    <span @contextmenu.prevent="stopDefault">{{item.name}}</span>
+                </template>
+                <template v-for="(subitem1, index) in item.children">
+                    <el-sub-menu v-if="subitem1.children && subitem1.children.length"
+                        popper-class="cl-slider-menu__submenu" :index="subitem1.id">
+                        <template #title>
+                            <i class="iconfont" :class="subitem1.icon"></i>
+                            <span @contextmenu.prevent="stopDefault">{{subitem1.name}}</span>
+                        </template>
+                        <template v-for="(subitem2, index) in subitem1.children">
+                            <el-sub-menu v-if="subitem2.children && subitem2.children.length"
+                                popper-class="cl-slider-menu__submenu" :index="subitem2.id">
+                                <template #title>
+                                    <i class="iconfont" :class="subitem2.icon"></i>
+                                    <span @contextmenu.prevent="stopDefault">{{subitem2.name}}</span>
+                                </template>
+                            </el-sub-menu>
+                            <el-menu-item v-else :index="subitem2.id">
+                                <i class="iconfont" :class="subitem2.icon"></i>
+                                <span @contextmenu.prevent="stopDefault">{{subitem2.name}}</span>
+                            </el-menu-item>
+                        </template>
+                    </el-sub-menu>
+                    <el-menu-item v-else :index="subitem1.id">
+                        <i class="iconfont" :class="subitem1.icon"></i>
+                        <span @contextmenu.prevent="stopDefault">{{subitem1.name}}</span>
+                    </el-menu-item>
+                </template>
+            </el-sub-menu>
+            <el-menu-item v-else v-show="getThemeConfig.layout!='columns' || item.pid == state.topActiveId"
+                :index="item.id" :key="item.id">
+                <i class="iconfont" :class="item.icon"></i>
+                <span @contextmenu.prevent="stopDefault">{{item.name}}</span>
+            </el-menu-item>
+        </template>
+    </el-menu>
+</div>

@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,
+        maximum-scale=1, user-scalable=no" />
+  <title>首页 - {$admin_page_title|default=''}</title>
+  <link rel="icon" href="{$admin_favicon|default=''}" type="image/ico">
+  <meta name="description" content="{$admin_page_description|default=''}">
+  <link rel="stylesheet" href="/assets/elementplus/theme/index.css?v={$admin_assets_ver|default='1.0'}" />
+  <link rel="stylesheet"
+    href="/assets/lightyearadmin/css/materialdesignicons.min.css?v={$admin_assets_ver|default='1.0'}">
+</head>
+
+<body>
+  <div id="app" class="hidden">
+    <el-config-provider :size="getThemeConfig.globalComponentSize">
+      <!--layout-defaults-->
+      <template v-if="getThemeConfig.layout=='defaults'">
+        <el-container v-loading="pageLoading"
+          :element-loading-background="getThemeConfig.isIsDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)'"
+          class="layout-container">
+          <!--LayoutAside-->
+          {include file="$admin_aside" /}
+          <!--LayoutAside end-->
+          <el-container class="layout-container-view h100">
+            <el-scrollbar ref="layoutScrollbarRef" class="layout-backtop">
+              <!--LayoutHeader-->
+              {include file="$admin_header" /}
+              <!--LayoutHeader end-->
+              <!--LayoutMain-->
+              {include file="$admin_main" /}
+              <!--LayoutMain end-->
+            </el-scrollbar>
+          </el-container>
+        </el-container>
+      </template>
+      <!--layout-defaults end-->
+
+      <!--layout-columns-->
+      <template v-if="getThemeConfig.layout=='columns'">
+        <el-container v-loading="pageLoading"
+          :element-loading-background="getThemeConfig.isIsDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)'"
+          class="layout-container">
+          <!--ColumnsAside-->
+          {include file="$admin_columns_aside" /}
+          <!--ColumnsAside end-->
+          <el-container class="layout-columns-warp layout-container-view h100">
+            <!--LayoutAside-->
+            {include file="$admin_aside" /}
+            <!--LayoutAside end-->
+            <el-scrollbar ref="layoutScrollbarRef" class="layout-backtop">
+              <!--LayoutHeader-->
+              {include file="$admin_header" /}
+              <!--LayoutHeader end-->
+              <!--LayoutMain-->
+              {include file="$admin_main" /}
+              <!--LayoutMain end-->
+            </el-scrollbar>
+          </el-container>
+        </el-container>
+      </template>
+      <!--layout-columns end-->
+
+      <!--layout-transverse-->
+      <template v-if="getThemeConfig.layout=='transverse'">
+        <el-container v-loading="pageLoading"
+          :element-loading-background="getThemeConfig.isIsDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)'"
+          class="layout-container flex-center layout-backtop">
+          <!--LayoutHeader-->
+          {include file="$admin_header" /}
+          <!--LayoutHeader end-->
+          <!--LayoutMain-->
+          {include file="$admin_main" /}
+          <!--LayoutMain end-->
+        </el-container>
+      </template>
+      <!--layout-transverse end-->
+
+      <!--Settings-->
+      {include file="$admin_setting" /}
+      <!--Settings end-->
+    </el-config-provider>
+  </div>
+  <script type="text/javascript" src="/assets/lightyearadmin/js/jquery.min.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/tpextbuilder/js/layer/layer.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/vue.global.prod.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/index.full.min.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/icons.min.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/axios.min.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/vue-demi.iife.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/mitt.umd.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/pinia.iife.prod.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/Sortable.min.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/lib/locale/zh-cn.min.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/js/index.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/utils/storage.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/utils/watermark.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/utils/mitt.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/utils/theme.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/stores/themeConfig.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript" src="/assets/elementplus/stores/tagsViewRoutes.js?v={$admin_assets_ver|default='1.0'}"
+    charset="utf-8"></script>
+  <script type="text/javascript">
+    const { createApp, computed, ref, reactive, onBeforeMount, onMounted, onUnmounted, nextTick, watch } = Vue;
+    const { createPinia, storeToRefs } = Pinia;
+
+    let json_str = '{$menus|raw}';
+    let menuJson = JSON.parse(json_str);
+
+    const state = reactive({
+      topMenu: [],
+      leftMenu: [],
+      clientWidth: 0,
+      isCollapse: false,
+      breadcrumb: '{$dashbord.name}',
+      pageLoading: true,
+      //
+      sortable: '',
+      tagsRefsIndex: 0,
+      activeTabId: '{$dashbord.id}',
+      tagsViewList: [
+        {
+          id: '{$dashbord.id}',
+          path: '{$dashbord.url}',
+          name: '{$dashbord.name}',
+          pid: 0,
+          meta: {
+            title: '{$dashbord.name}',
+            isLink: true,
+            isHide: false,
+            isKeepAlive: true,
+            isAffix: true,
+            isIframe: true,
+            icon: '',
+            loading: true,
+          },
+        },
+      ],
+      //contextmenu
+      isShow: false,
+      dropdownList: [
+        { contextMenuClickId: 0, txt: '刷新当前', affix: false, icon: 'ele-refresh-right' },
+        { contextMenuClickId: 1, txt: '关闭当前', affix: false, icon: 'ele-close' },
+        { contextMenuClickId: 2, txt: '关闭其他', affix: false, icon: 'ele-circle-close' },
+        { contextMenuClickId: 3, txt: '关闭全部', affix: false, icon: 'ele-folder-delete' },
+      ],
+      item: {},
+      arrowLeft: 10,
+      dropdown: {
+        x: 0,
+        y: 0,
+      },
+      disabledSize: 'large',
+      isMobile: false,
+      isDrawer: false,
+      //
+      liIndex: 0,
+      difference: 0,
+      routeSplit: [],
+      topActiveId: 0,
+      topHoverId: -1,
+      //
+    });
+
+    const isMobile = () => {
+      if (navigator.userAgent.match(/('phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone')/i)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    };
+
+    const { getLightColor, getDarkColor } = useChangeColor();
+
+    const layoutAsideScrollbarRef = ref(null);
+    const layoutScrollbarRef = ref(null);
+    const layoutMainRef = ref(null);
+    const tagsRefs = ref([]);
+    const contextmenuRef = ref(null);
+    const iframeRefs = ref([]);
+    const layoutMainScrollbarRef = ref(null);
+    const columnsAsideOffsetTopRefs = ref([]);
+    const columnsAsideActiveRef = ref(null);
+    const scrollbarRef = ref(null);
+
+    const app = createApp({
+      setup() {
+        const themeConfigSto = window.useThemeConfig();
+        const tagsViewRoutesSto = window.useTagsViewRoutes();
+
+        const {
+          themeConfig,
+        } = storeToRefs(themeConfigSto);
+        const {
+          tagsViewRoutes,
+          isTagsViewCurrenFull,
+        } = storeToRefs(tagsViewRoutesSto);
+
+        const {
+          setThemeConfig,
+        } = themeConfigSto;
+
+        const buildMenu = () => {
+          let treeObj = treeData(menuJson, 'id', 'pid', 'children');
+          if (getThemeConfig.value.layout == 'columns') {
+            let menuInfo = getSubMenu(treeObj);
+            state.leftMenu = menuInfo.left;
+            state.topMenu = menuInfo.top;
+            state.topActiveId = state.topMenu.length > 0 ? state.topMenu[0].id : 0;
+            onColumnsAsideMenuClick(state.topMenu[0], 0);
+          }
+          else {
+            state.leftMenu = treeObj;
+            state.topMenu = [];
+          }
+        };
+
+        /**LayoutAside**/
+        // 设置菜单展开/收起时的宽度
+        const setCollapseStyle = computed(() => {
+          const { layout, isCollapse, menuBar } = themeConfig.value;
+          const asideBrTheme = ['#FFFFFF', '#FFF', '#fff', '#ffffff'];
+          const asideBrColor = asideBrTheme.includes(menuBar) ? 'layout-el-aside-br-color' : '';
+          // 判断是否是手机端
+          if (state.clientWidth <= 1000) {
+            if (isCollapse) {
+              document.body.setAttribute('class', 'el-popup-parent--hidden');
+              const asideEle = document.querySelector('.layout-container');
+              const modeDivs = document.createElement('div');
+              modeDivs.setAttribute('class', 'layout-aside-mobile-mode');
+              asideEle.appendChild(modeDivs);
+              modeDivs.addEventListener('click', closeLayoutAsideMobileMode);
+              return [asideBrColor, 'layout-aside-mobile', 'layout-aside-mobile-open'];
+            } else {
+              // 关闭弹窗
+              closeLayoutAsideMobileMode();
+              return [asideBrColor, 'layout-aside-mobile', 'layout-aside-mobile-close'];
+            }
+          } else {
+            if (layout === 'columns') {
+              // 分栏布局、经典布局，菜单收起时宽度给 1px，防止切换动画消失
+              if (isCollapse) return [asideBrColor, 'layout-aside-pc-1'];
+              else return [asideBrColor, 'layout-aside-pc-220'];
+            } else {
+              // 其它布局给 64px
+              if (isCollapse) return [asideBrColor, 'layout-aside-pc-64'];
+              else return [asideBrColor, 'layout-aside-pc-220'];
+            }
+          }
+        });
+
+        // 设置 logo 显示/隐藏
+        const setIsShowLogo = computed(() => {
+          let { isShowLogo, layout } = themeConfig.value;
+          return (isShowLogo && layout === 'classic') || (isShowLogo && layout === 'transverse');
+        });
+
+        // 设置显示/隐藏 logo
+        const setShowLogo = computed(() => {
+          let { layout, isShowLogo } = themeConfig.value;
+          return (isShowLogo && layout === 'defaults') || (isShowLogo && layout === 'columns');
+        });
+
+        // 关闭移动端蒙版
+        const closeLayoutAsideMobileMode = () => {
+          const el = document.querySelector('.layout-aside-mobile-mode');
+          el?.setAttribute('style', 'animation: error-img-two 0.3s');
+          setTimeout(() => {
+            el?.parentNode?.removeChild(el);
+          }, 300);
+          const clientWidth = document.body.clientWidth;
+          if (clientWidth < 1000) themeConfig.value.isCollapse = false;
+          document.body.setAttribute('class', '');
+        };
+        // 设置菜单导航是否固定（移动端）
+        const initMenuFixed = (clientWidth) => {
+          state.clientWidth = clientWidth;
+        };
+
+        // 鼠标移入、移出
+        const onAsideEnterLeave = (bool) => {
+          // let { layout } = themeConfig.value;
+          // if (layout !== 'columns') return false;
+          // if (!bool) mittBus.emit('restoreDefault');
+          // 开启 `分栏菜单鼠标悬停预加载` 才设置，防止 columnsAside.vue 监听 pinia.state
+          // if (themeConfig.value.isColumnsMenuHoverPreload) stores.setColumnsMenuHover(bool);
+        };
+
+        // 监听 themeConfig 配置文件的变化，更新菜单 el-scrollbar 的高度
+        watch(
+          () => [themeConfig.value.isShowLogoChange, themeConfig.value.isShowLogo, themeConfig.value.layout, themeConfig.value.isClassicSplitMenu],
+          ([isShowLogoChange, isShowLogo, layout, isClassicSplitMenu]) => {
+            if (isShowLogoChange !== isShowLogo) {
+              if (layoutAsideScrollbarRef.value) layoutAsideScrollbarRef.value.update();
+            }
+            if (layout === 'classic' && isClassicSplitMenu) return false;
+          }
+        );
+
+        watch(
+          () => themeConfig.value.isCollapse,
+          (isCollapse) => {
+            document.body.clientWidth <= 1000 ? (state.isCollapse = false) : (state.isCollapse = isCollapse);
+          },
+          {
+            immediate: true,
+          }
+        );
+
+        /**LayoutAside end **/
+
+        const setShowTagsView = computed(() => {
+          let { layout, isTagsview } = themeConfig.value;
+          return layout !== 'classic' && isTagsview;
+        });
+
+        /**TagsView**/
+        // 动态设置 tagsView 风格样式
+        const setTagsStyle = computed(() => {
+          return themeConfig.value.tagsStyle;
+        });
+        // 获取布局配置信息
+        const getThemeConfig = computed(() => {
+          return themeConfig.value;
+        });
+        // 设置 自定义 tagsView 名称、 自定义 tagsView 名称国际化
+        const setTagsViewNameI18n = computed(() => {
+          return (v) => {
+            return v.meta.title;
+          };
+        });
+        // 设置 tagsView 高亮
+        const isActive = (v) => {
+          return v.id === state.activeTabId;
+        };
+        // 存储 tagsViewList 到浏览器临时缓存中，页面刷新时，保留记录
+        const addBrowserSetSession = (tagsViewList) => {
+          Session.set('tagsViewList', tagsViewList);
+        };
+
+        // 2、刷新当前 tagsView：
+        const refreshCurrentTagsView = (item) => {
+          let el = iframeRefs.value[item.id];
+          if (el) {
+            item.meta.loading = true;
+            el.contentWindow.location.reload(true);
+            setTimeout(function () {
+              item.meta.loading = false;
+            }, 6000);
+          }
+        };
+        // 3、关闭当前 tagsView：如果是设置了固定的（isAffix），不可以关闭
+        const closeCurrentTagsView = (item) => {
+          if (item.meta.isAffix) {
+            return false;
+          }
+          state.tagsViewList.map((v, k, arr) => {
+            if (v.id === item.id) {
+              state.tagsViewList.splice(k, 1);
+              setTimeout(() => {
+                if (k > 1) {
+                  onTagsClick(state.tagsViewList[k - 1], k - 1);
+                }
+                else {
+                  autoActive();
+                }
+              }, 0);
+              return;
+            }
+          });
+          addBrowserSetSession(state.tagsViewList);
+        };
+        const autoActive = () => {
+          let find = state.tagsViewList.find(e => e.id == state.activeTabId);
+          if (!find) {
+            let next = last(state.tagsViewList);
+            if (next) {
+              state.activeTabId = next.id;
+            }
+          }
+        };
+        // 4、关闭其它 tagsView：如果是设置了固定的（isAffix），不进行关闭
+        const closeOtherTagsView = () => {
+          state.tagsViewList = state.tagsViewList.filter(
+            e => e.id == state.activeTabId || e.meta.isAffix || e.path === "{$dashbord.url}"
+          );
+          addBrowserSetSession(state.tagsViewList);
+          autoActive();
+        };
+        // 5、关闭全部 tagsView：如果是设置了固定的（isAffix），不进行关闭
+        const closeAllTagsView = () => {
+          state.tagsViewList = state.tagsViewList.filter(
+            e => e.meta.isAffix || e.path === "{$dashbord.url}"
+          );
+          addBrowserSetSession(state.tagsViewList);
+          autoActive();
+        };
+
+        const currentContextmenuClick = (contextMenuClickId) => {
+          onCurrentContextmenuClick(Object.assign({}, { contextMenuClickId }, state.item));
+        };
+
+        // 当前项右键菜单点击
+        const onCurrentContextmenuClick = (item) => {
+          switch (item.contextMenuClickId) {
+            case 0:
+              // 刷新当前
+              let current0 = state.tagsViewList.findIndex(e => e.id == state.activeTabId);
+              if (current0) {
+                refreshCurrentTagsView(state.tagsViewList[current0]);
+              }
+              break;
+            case 1:
+              // 关闭当前
+              let current1 = state.tagsViewList.findIndex(e => e.id == state.activeTabId);
+              if (current1) {
+                closeCurrentTagsView(state.tagsViewList[current1]);
+              }
+              break;
+            case 2:
+              // 关闭其它
+              closeOtherTagsView();
+              break;
+            case 3:
+              // 关闭全部
+              closeAllTagsView();
+              break;
+          }
+        };
+        // 右键点击时：传 x,y 坐标值到子组件中（props）
+        const onContextmenu = (v, e) => {
+          const { clientX, clientY } = e;
+          state.dropdown.x = clientX;
+          state.dropdown.y = clientY;
+          openContextmenu(v);
+        };
+        // 鼠标按下时，判断是鼠标中键就关闭当前 tasgview
+        const onMousedownMenu = (v, e) => {
+          if (!v.meta.isAffix && e.button === 1) {
+            const item = Object.assign({}, { contextMenuClickId: 1, ...v });
+            onCurrentContextmenuClick(item);
+          }
+        };
+        const toScroll = (isLeft) => {
+          scrollToItem(scrollbarRef.value.$refs.wrapRef.scrollLeft + (isLeft ? -400 : 400));
+        };
+        const scrollToItem = (leftPos) => {
+          scrollbarRef.value.$refs.wrapRef.scrollTo({
+            left: leftPos,
+            behavior: "smooth"
+          });
+          scrollbarRef.value.update();
+        };
+
+        // 当前的 tagsView 项点击时
+        const onTagsClick = (v, k) => {
+          state.breadcrumb = v.name;
+          state.activeTabId = v.id;
+          if (k === undefined) {
+            for (let i in state.tagsViewList) {
+              if (state.tagsViewList[i].id == v.id) {
+                k = i;
+                break;
+              }
+            }
+          }
+
+          let diff = 120 * (k - state.tagsRefsIndex);//判断是往左点还是往右点，加上惯性
+          state.tagsRefsIndex = k;
+
+          if (k == 0 || k == state.tagsViewList.length - 1) {
+            diff = 0;
+          }
+          let el = tagsRefs.value[k];
+          if (el) {
+            scrollToItem(el.offsetLeft + el.clientWidth - scrollbarRef.value.$refs.wrapRef.clientWidth + diff);
+          }
+
+          // 分栏布局时，收起/展开菜单
+          if (getThemeConfig.value.layout === 'columns') {
+            // const item = state.topMenu.find((r) => r.id == v.pid);
+            // if(!item) return;
+            // !item.children ? (getThemeConfig.value.isCollapse = true) : (getThemeConfig.value.isCollapse = false);
+            state.topActiveId = v.pid;
+            if (v.pid == 0) {
+              getThemeConfig.value.isCollapse = true
+            }
+          }
+        };
+        // 鼠标滚轮滚动
+        const onHandleScroll = (e) => {
+          scrollbarRef.value.$refs.wrapRef.scrollLeft += e.wheelDelta / 4;
+        };
+        // 设置 tagsView 可以进行拖拽
+        const initSortable = async () => {
+          const el = document.querySelector('.layout-navbars-tagsview-ul');
+          if (!el) return false;
+          state.sortable.el && state.sortable.destroy();
+          state.sortable = Sortable.create(el, {
+            animation: 300,
+            dataIdAttr: 'data-url',
+            disabled: getThemeConfig.value.isSortableTagsView ? false : true,
+            onEnd: () => {
+              const sortEndList = [];
+              state.sortable.toArray().map((val) => {
+                state.tagsViewList.map((v) => {
+                  if (v.url === val) sortEndList.push({ ...v });
+                });
+              });
+              addBrowserSetSession(sortEndList);
+            },
+          });
+        };
+        // 拖动问题，https://gitee.com/lyt-top/vue-next-admin/issues/I3ZRRI
+        const onSortableResize = async () => {
+          await initSortable();
+          if (isMobile()) state.sortable.el && state.sortable.destroy();
+        };
+
+        /**TagsView end**/
+
+        /**Meun操作**/
+        const leftMenuSelect = (id) => {
+          let find = state.tagsViewList.find(e => e.id == id);
+          if (find) {
+            onTagsClick(find);
+          }
+          else {
+            let find0 = menuJson.find(e => e.id == id);
+            if (find0) {
+              openPage(
+                {
+                  id: find0.id,
+                  name: find0.name,
+                  path: find0.url,
+                  pid: find0.pid,
+                }
+              );
+            }
+          }
+        };
+        const openPage = (item) => {
+          if (!item.path || item.path == '#' || item.path == '/') {
+            return;
+          }
+          state.tagsViewList.push(
+            {
+              id: item.id,
+              path: item.path,
+              name: item.name,
+              pid: item.pid,
+              meta: {
+                title: item.name,
+                isLink: true,
+                isHide: false,
+                isKeepAlive: true,
+                isAffix: false,
+                isIframe: true,
+                icon: '',
+                loading: true,
+              },
+            }
+          );
+          let last = state.tagsViewList.length - 1;
+          onTagsClick(state.tagsViewList[last], last);
+          addBrowserSetSession(state.tagsViewList);
+        };
+        const stopDefault = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        };
+
+        const openContextmenu = (item) => {
+          state.item = item;
+          item.meta.isAffix ? (state.dropdownList[1].affix = true) : (state.dropdownList[1].affix = false);
+          closeContextmenu();
+          setTimeout(() => {
+            state.isShow = true;
+            document.body.addEventListener('click', closeContextmenu);
+          }, 10);
+        };
+        const closeContextmenu = () => {
+          state.isShow = false;
+        };
+
+        const dropdowns = computed(() => {
+          // 117 为 `Dropdown 下拉菜单` 的宽度
+          if (state.dropdown.x + 117 > document.documentElement.clientWidth) {
+            return {
+              x: document.documentElement.clientWidth - 117 - 5,
+              y: state.dropdown.y,
+            };
+          } else {
+            return state.dropdown;
+          }
+        });
+
+        // 设置是否显示横向导航菜单
+        const isLayoutTransverse = computed(() => {
+          let { layout, isClassicSplitMenu } = themeConfig.value;
+          return layout === 'transverse' || (isClassicSplitMenu && layout === 'classic');
+        });
+
+        const isShowBreadcrumb = computed(() => {
+          const { layout, isBreadcrumb } = themeConfig.value;
+          if (layout === 'classic' || layout === 'transverse') return false;
+          else return isBreadcrumb ? true : false;
+        });
+
+        const onComponentSizeChange = (size) => {
+          Local.remove('themeConfig');
+          state.disabledSize = size;
+          themeConfig.value.globalComponentSize = size;
+          Local.set('themeConfig', themeConfig.value);
+          window.location.reload();
+        };
+
+        const onLayoutSetingClick = () => {
+          state.isDrawer = true;
+        };
+
+        const onHandleCommandClick = function (cmd) {
+          if (cmd === 'logOut') {
+            ElementPlus.ElMessageBox({
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              title: '提示',
+              message: '确定要注销登录?',
+              showCancelButton: true,
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              buttonSize: 'default',
+              beforeClose: (action, instance, done) => {
+                if (action === 'confirm') {
+                  instance.confirmButtonLoading = true;
+                  instance.confirmButtonText = '退出';
+                  setTimeout(() => {
+                    done();
+                    setTimeout(() => {
+                      instance.confirmButtonLoading = false;
+                    }, 300);
+                  }, 700);
+                } else {
+                  done();
+                }
+              },
+            })
+              .then(async () => {
+                location.replace("{:url('/admin/index/logout')}");
+              })
+              .catch(() => { });
+          } else {
+            let arr = cmd.split('|');
+            let url = arr[1].replace(/\.html/i, '');
+            let find = state.tagsViewList.find(e => (e.path == url || e.path == url + '.html'));
+            if (find) {
+              onTagsClick(find);
+            }
+            else {
+              let find0 = menuJson.find(e => (e.path == url || e.path == url + '.html'));
+              if (find0) {
+                openPage(
+                  {
+                    id: find0.id,
+                    name: arr[0],
+                    path: find0.url,
+                    pid: find0.pid,
+                  }
+                );
+              }
+              else {
+                openPage(
+                  {
+                    id: url.replace(/\W/g, ''),
+                    name: arr[0],
+                    path: url,
+                    pid: 0,
+                  }
+                );
+              }
+            }
+          }
+        };
+
+        //Main
+
+        // 设置 footer 显示/隐藏
+        const isFooter = computed(() => {
+          return themeConfig.value.isFooter;
+        });
+        // 设置 header 固定
+        const isFixedHeader = computed(() => {
+          return themeConfig.value.isFixedHeader;
+        });
+        // 设置 Backtop 回到顶部
+        const setBacktopClass = computed(() => {
+          if (themeConfig.value.isFixedHeader) return `.layout-backtop-header-fixed .el-scrollbar__wrap`;
+          else return `.layout-backtop .el-scrollbar__wrap`;
+        });
+        // 设置主内容区的高度
+        const setMainHeight = computed(() => {
+          if (isTagsViewCurrenFull.value) return '0px';
+          const { isTagsview, layout } = themeConfig.value;
+          if (isTagsview && layout !== 'classic') return '85px';
+          else return '51px';
+        });
+
+        // 展开/收起左侧菜单点击
+        const onCollapseConfigChange = () => {
+          if (themeConfig.value.layout === 'transverse') return false;
+          themeConfig.value.isCollapse = !themeConfig.value.isCollapse;
+
+          const clientWidth = document.body.clientWidth;
+          if (getThemeConfig.value.layout == 'columns' && clientWidth >= 1000) {
+            //分栏模式无子菜单，强制收起
+            let find = state.leftMenu.find(e => e.pid == state.topActiveId);
+            if (!find) {
+              themeConfig.value.isCollapse = true;
+              return;
+            }
+          }
+          // setLocalThemeConfig();
+        };
+
+        //主题设置
+
+        const onColorPickerChange = () => {
+          if (!getThemeConfig.value.primary) return ElMessage.warning('全局主题 primary 颜色值不能为空');
+          // 颜色加深
+          document.documentElement.style.setProperty('--el-color-primary-dark-2', `${getDarkColor(getThemeConfig.value.primary, 0.1)}`);
+          document.documentElement.style.setProperty('--el-color-primary', getThemeConfig.value.primary);
+          // 颜色变浅
+          for (let i = 1; i <= 9; i++) {
+            document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(getThemeConfig.value.primary, i / 10)}`);
+          }
+          setDispatchThemeConfig();
+        };
+
+        // 2、菜单 / 顶栏
+        const onBgColorPickerChange = (bg) => {
+          document.documentElement.style.setProperty(`--next-bg-${bg}`, themeConfig.value[bg]);
+          if (bg === 'menuBar') {
+            document.documentElement.style.setProperty(`--next-bg-menuBar-light-1`, getLightColor(getThemeConfig.value.menuBar, 0.05));
+          }
+          onTopBarGradualChange();
+          onMenuBarGradualChange();
+          onColumnsMenuBarGradualChange();
+          setDispatchThemeConfig();
+        };
+        // 2、菜单 / 顶栏 --> 顶栏背景渐变
+        const onTopBarGradualChange = () => {
+          setGraduaFun('.layout-navbars-breadcrumb-index', getThemeConfig.value.isTopBarColorGradual, getThemeConfig.value.topBar);
+        };
+        // 2、菜单 / 顶栏 --> 菜单背景渐变
+        const onMenuBarGradualChange = () => {
+          setGraduaFun('.layout-container .el-aside', getThemeConfig.value.isMenuBarColorGradual, getThemeConfig.value.menuBar);
+        };
+        // 2、菜单 / 顶栏 --> 分栏菜单背景渐变
+        const onColumnsMenuBarGradualChange = () => {
+          setGraduaFun('.layout-container .layout-columns-aside', getThemeConfig.value.isColumnsMenuBarColorGradual, getThemeConfig.value.columnsMenuBar);
+        };
+        // 2、菜单 / 顶栏 --> 背景渐变函数
+        const setGraduaFun = (el, bool, color) => {
+          nextTick(() => {
+            setTimeout(() => {
+              let els = document.querySelector(el);
+              if (!els) return false;
+              document.documentElement.style.setProperty('--el-menu-bg-color', document.documentElement.style.getPropertyValue('--next-bg-menuBar'));
+              if (bool) els.setAttribute('style', `background:linear-gradient(to bottom , ${color}, ${getLightColor(color, 0.5)})`);
+              else els.setAttribute('style', ``);
+              setLocalThemeConfig();
+            }, 300);
+          });
+        };
+        // 2、分栏设置 ->
+        const onColumnsMenuHoverPreloadChange = () => {
+          setLocalThemeConfig();
+        };
+        // 3、界面设置 --> 菜单水平折叠
+        const onThemeConfigChange = () => {
+          setDispatchThemeConfig();
+        };
+        // 3、界面设置 --> 固定 Header
+        const onIsFixedHeaderChange = () => {
+          getThemeConfig.value.isFixedHeaderChange = getThemeConfig.value.isFixedHeader ? false : true;
+          setLocalThemeConfig();
+        };
+        // 3、界面设置 --> 经典布局分割菜单
+        const onClassicSplitMenuChange = () => {
+          getThemeConfig.value.isBreadcrumb = false;
+          setLocalThemeConfig();
+          mittBus.emit('getBreadcrumbIndexSetFilterRoutes');
+        };
+        // 4、界面显示 --> 侧边栏 Logo
+        const onIsShowLogoChange = () => {
+          getThemeConfig.value.isShowLogoChange = getThemeConfig.value.isShowLogo ? false : true;
+          setLocalThemeConfig();
+        };
+        // 4、界面显示 --> 面包屑 Breadcrumb
+        const onIsBreadcrumbChange = () => {
+          if (getThemeConfig.value.layout === 'classic') {
+            getThemeConfig.value.isClassicSplitMenu = false;
+          }
+          setLocalThemeConfig();
+        };
+        // 4、界面显示 --> 开启 TagsView 拖拽
+        const onSortableTagsViewChange = () => {
+          mittBus.emit('openOrCloseSortable');
+          setLocalThemeConfig();
+        };
+        // 4、界面显示 --> 开启 TagsView 共用
+        const onShareTagsViewChange = () => {
+          mittBus.emit('openShareTagsView');
+          setLocalThemeConfig();
+        };
+        // 4、界面显示 --> 灰色模式/色弱模式
+        const onAddFilterChange = (attr) => {
+          if (attr === 'grayscale') {
+            if (getThemeConfig.value.isGrayscale) getThemeConfig.value.isInvert = false;
+          } else {
+            if (getThemeConfig.value.isInvert) getThemeConfig.value.isGrayscale = false;
+          }
+          const cssAttr =
+            attr === 'grayscale' ? `grayscale(${getThemeConfig.value.isGrayscale ? 1 : 0})` : `invert(${getThemeConfig.value.isInvert ? '80%' : '0%'})`;
+          const appEle = document.body;
+          appEle.setAttribute('style', `filter: ${cssAttr}`);
+          setLocalThemeConfig();
+        };
+        // 4、界面显示 --> 深色模式
+        const onAddDarkChange = () => {
+          const body = document.documentElement;
+          if (getThemeConfig.value.isIsDark) body.setAttribute('data-theme', 'dark');
+          else body.setAttribute('data-theme', '');
+
+          setLocalThemeConfig();
+
+          /**兼容firame子窗口未使用element-plus的情况**/
+          let isDark = getThemeConfig.value.isIsDark ? 'dark' : 'default';
+          localStorage.setItem('site_theme', isDark);
+          for (let i in iframeRefs.value) {
+            let el = iframeRefs.value[i];
+            if (el) {
+              $(el).contents().find('body').attr('data-theme', isDark);
+            }
+          }
+        };
+        // 5、布局切换
+        const onSetLayout = (layout) => {
+          Local.set('oldLayout', layout);
+          if (getThemeConfig.value.layout === layout) return false;
+          if (layout === 'transverse') getThemeConfig.value.isCollapse = false;
+          getThemeConfig.value.layout = layout;
+          state.isDrawer = false;
+          initLayoutChangeFun();
+        };
+        // 设置布局切换函数
+        const initLayoutChangeFun = () => {
+          onBgColorPickerChange('menuBar');
+          onBgColorPickerChange('menuBarColor');
+          onBgColorPickerChange('menuBarActiveColor');
+          onBgColorPickerChange('topBar');
+          onBgColorPickerChange('topBarColor');
+          onBgColorPickerChange('columnsMenuBar');
+          onBgColorPickerChange('columnsMenuBarColor');
+        };
+        // 关闭弹窗时，初始化变量。变量用于处理 layoutScrollbarRef.value.update() 更新滚动条高度
+        const onDrawerClose = () => {
+          getThemeConfig.value.isFixedHeaderChange = false;
+          getThemeConfig.value.isShowLogoChange = false;
+          state.isDrawer = false;
+          setLocalThemeConfig();
+        };
+        // 布局配置弹窗打开
+        const openDrawer = () => {
+          state.isDrawer = true;
+        };
+        // 触发 store 布局配置更新
+        const setDispatchThemeConfig = () => {
+          setLocalThemeConfig();
+          setLocalThemeConfigStyle();
+          buildMenu();
+        };
+        // 存储布局配置
+        const setLocalThemeConfig = () => {
+          Local.remove('themeConfig');
+          Local.set('themeConfig', getThemeConfig.value);
+        };
+        // 存储布局配置全局主题样式（html根标签）
+        const setLocalThemeConfigStyle = () => {
+          Local.set('themeConfigStyle', document.documentElement.style.cssText);
+        };
+        // 一键复制配置
+        const onCopyConfigClick = () => {
+          let copyThemeConfig = Local.get('themeConfig');
+          copyThemeConfig.isDrawer = false;
+          copyText(JSON.stringify(copyThemeConfig)).then(() => {
+            state.isDrawer = false;
+          });
+        };
+        // 一键恢复默认
+        const onResetConfigClick = () => {
+          Local.clear();
+          window.location.reload();
+          // @ts-ignore
+          Local.set('version', (new Date()).getTime());
+        };
+        // 初始化菜单样式等
+        const initSetStyle = () => {
+          // 2、菜单 / 顶栏 --> 顶栏背景渐变
+          onTopBarGradualChange();
+          // 2、菜单 / 顶栏 --> 菜单背景渐变
+          onMenuBarGradualChange();
+          // 2、菜单 / 顶栏 --> 分栏菜单背景渐变
+          onColumnsMenuBarGradualChange();
+        };
+
+        // 窗口大小改变时(适配移动端)
+        const onLayoutResize = () => {
+          if (!Local.get('oldLayout')) Local.set('oldLayout', themeConfig.value.layout);
+          const clientWidth = document.body.clientWidth;
+          if (clientWidth < 1000) {
+            themeConfig.value.isCollapse = false;
+            mittBus.emit('layoutMobileResize', {
+              layout: 'defaults',
+              clientWidth,
+            });
+          } else {
+            mittBus.emit('layoutMobileResize', {
+              layout: Local.get('oldLayout') ? Local.get('oldLayout') : themeConfig.value.layout,
+              clientWidth,
+            });
+          }
+        };
+
+        /**columns**/
+        // 设置菜单高亮位置移动
+        const setColumnsAsideMove = (k) => {
+          if (k === undefined) return false;
+          state.liIndex = k;
+          if (columnsAsideActiveRef.value) {
+            columnsAsideActiveRef.value.style.top = `${columnsAsideOffsetTopRefs.value[k].offsetTop + state.difference}px`;
+          }
+        };
+        // 菜单高亮点击事件
+        const onColumnsAsideMenuClick = (v, k) => {
+          setColumnsAsideMove(k);
+          const clientWidth = document.body.clientWidth;
+          if (clientWidth < 1000) {
+            themeConfig.value.isCollapse = false;
+            return;
+          }
+
+          state.topActiveId = v.id;
+          state.breadcrumb = v.name;
+          for (let i in state.tagsViewList) {
+            if (state.tagsViewList[i].id == v.id) {
+              state.tagsRefsIndex = i;
+              break;
+            }
+          }
+
+          let find = menuJson.find(e => e.pid == v.id);
+
+          if (find) {
+            themeConfig.value.isCollapse = false
+            let find0 = state.tagsViewList.find(e => e.id == find.id);
+            if (find0) {
+              state.activeTabId = find0.id;
+              onTagsClick(find0);
+            }
+            else {
+              if (!themeConfig.value.activeFirst) {
+                return;
+              }
+              openPage(
+                {
+                  id: find.id,
+                  name: find.name,
+                  path: find.url,
+                  pid: find.pid,
+                }
+              );
+            }
+          }
+          else {
+            themeConfig.value.isCollapse = true
+          }
+        };
+        // 鼠标移入时，显示当前的子级菜单
+        const onColumnsAsideMenuMouseenter = (v, k) => {
+          if (!themeConfig.value.isColumnsMenuHoverPreload) return false;
+          state.topHoverId = v.id;
+        };
+        // 鼠标移走时，显示原来的子级菜单
+        const onColumnsAsideMenuMouseleave = async () => {
+          if (!themeConfig.value.isColumnsMenuHoverPreload) return false;
+          state.topHoverId = -1;
+        };
+
+        onMounted(() => {
+          nextTick(() => {
+            document.getElementById('app').className = '';
+            initSortable();
+
+            let wartermark_text = '{$wartermark_text}';
+            if (wartermark_text) {
+              watermark.set(wartermark_text + " - {$admin_user.username|default=''}");
+            }
+            else {
+              watermark.del();
+            }
+            state.isMobile = isMobile();
+
+            // 监听布局配'置弹窗点击打开
+            mittBus.on('openSetingsDrawer', () => {
+              onLayoutSetingClick();
+            });
+            // 获取缓存中的布局配置
+            if (Local.get('themeConfig')) {
+              setThemeConfig({ themeConfig: Local.get('themeConfig') });
+              document.documentElement.style.cssText = Local.get('themeConfigStyle');
+            }
+            buildMenu();
+
+            state.disabledSize = themeConfig.value.globalComponentSize;
+
+            if (themeConfig.value.layout == 'columns') {
+              themeConfig.value.isCollapse = true;
+            }
+            // 判断当前布局是否不相同，不相同则初始化当前布局的样式，防止监听窗口大小改变时，布局配置logo、菜单背景等部分布局失效问题
+            if (!Local.get('frequency')) initLayoutChangeFun();
+            Local.set('frequency', 1);
+            // 监听窗口大小改变，非默认布局，设置成默认布局（适配移动端）
+            mittBus.on('layoutMobileResize', (res) => {
+              getThemeConfig.value.layout = res.layout;
+              getThemeConfig.value.isDrawer = false;
+              initLayoutChangeFun();
+              state.isMobile = isMobile();
+              buildMenu();
+            });
+            setTimeout(() => {
+              // 默认样式
+              onColorPickerChange();
+              // 灰色模式
+              if (getThemeConfig.value.isGrayscale) onAddFilterChange('grayscale');
+              // 色弱模式
+              if (getThemeConfig.value.isInvert) onAddFilterChange('invert');
+              // 深色模式
+              if (getThemeConfig.value.isIsDark) onAddDarkChange();
+              // 开启水印
+              initSetStyle();
+            }, 100);
+
+            setTimeout(() => {
+              state.pageLoading = false;
+            }, 1000);
+          });
+        })
+        // 页面加载前
+        onBeforeMount(() => {
+          initMenuFixed(document.body.clientWidth);
+          onLayoutResize();
+          window.addEventListener('resize', onLayoutResize);
+          onSortableResize();
+          // 拖动问题，https://gitee.com/lyt-top/vue-next-admin/issues/I3ZRRI
+          window.addEventListener('resize', onSortableResize);
+
+          // 监听窗口大小改变时(适配移动端)
+          mittBus.on('layoutMobileResize', (res) => {
+            initMenuFixed(res.clientWidth);
+            closeLayoutAsideMobileMode();
+          });
+          mittBus.on('openOrCloseSortable', () => {
+            initSortable();
+          });
+        });
+
+
+        return {
+          state,
+          onAsideEnterLeave,
+          setCollapseStyle,
+          setShowLogo,
+          setIsShowLogo,
+          setShowTagsView,
+          //
+          getThemeConfig,
+          themeConfig,
+          tagsViewRoutes,
+          isTagsViewCurrenFull,
+          //
+          layoutAsideScrollbarRef,
+          layoutScrollbarRef,
+          layoutMainRef,
+          tagsRefs,
+          iframeRefs,
+          contextmenuRef,
+          columnsAsideOffsetTopRefs,
+          columnsAsideActiveRef,
+          scrollbarRef,
+          //
+          isActive,
+          onContextmenu,
+          onTagsClick,
+          setTagsViewNameI18n,
+          refreshCurrentTagsView,
+          closeCurrentTagsView,
+          leftMenuSelect,
+          stopDefault,
+          onMousedownMenu,
+          openContextmenu,
+          currentContextmenuClick,
+          onComponentSizeChange,
+          onHandleCommandClick,
+          onLayoutSetingClick,
+          dropdowns,
+          isShowBreadcrumb,
+          setTagsStyle,
+          setBacktopClass,
+          setMainHeight,
+          //
+          onColorPickerChange,
+          onDrawerClose,
+          onIsFixedHeaderChange,
+          onSortableTagsViewChange,
+          onThemeConfigChange,
+          onAddDarkChange,
+          onIsShowLogoChange,
+          onBgColorPickerChange,
+          onClassicSplitMenuChange,
+          onTopBarGradualChange,
+          onColumnsMenuHoverPreloadChange,
+          onCollapseConfigChange,
+          onIsBreadcrumbChange,
+          setLocalThemeConfig,
+          onCopyConfigClick,
+          onShareTagsViewChange,
+          onResetConfigClick,
+          onAddFilterChange,
+          onMenuBarGradualChange,
+          openDrawer,
+          onSetLayout,
+          getLightColor,
+          getDarkColor,
+          //
+          onColumnsAsideMenuMouseleave,
+          onColumnsAsideMenuClick,
+          onColumnsAsideMenuMouseenter,
+          toScroll,
+        }
+      },
+    })
+    app.use(ElementPlus, {
+      locale: ElementPlusLocaleZhCn,
+    })
+    const pinia = createPinia();
+    app.use(pinia);
+    //注册图标
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      //使用：<el-icon><ele-plus></ele-plus></el-icon>
+      app.component('ele' + key, component);
+    }
+
+    let vm = app.mount('#app');
+
+    $('a.open-tab').click(function () {
+      $.fn.multitabs().create(this, true);
+      return false;
+    });
+
+    ((function ($) {
+      // 兼容 lightyear 的 MultiTabs js
+      let MultiTabs = function (element) {
+        let self = this;
+        self.$element = $(element);
+      };
+      MultiTabs.prototype = {
+        constructor: MultiTabs,
+        /**
+         * create tab and return this.
+         * @param obj           the obj to trigger multitabs
+         * @param active        if true, active tab after create
+         * @returns this        Chain structure.
+         */
+        create: function (obj, active) {
+          let url = $(obj).data("url") || $(obj).attr("href"),
+            text = $.trim($(obj).attr('title') || $(obj).data('title') || $(obj).text());
+
+          vm.onHandleCommandClick(text + '|' + url);
+          return this;
+        },
+      };
+
+      $.fn.multitabs = function () {
+        let self = $(this),
+          did = 'multitabs',
+          multitabs = $(document).data(did);
+        if (!multitabs) {
+          multitabs = new MultiTabs(this);
+          $(document).data(did, multitabs);
+        }
+        return $(document).data(did);
+      };
+    })(jQuery));
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<el-header class="layout-header" v-show="!isTagsViewCurrenFull">
+    <!--NavBarsIndex-->
+    <div class="layout-navbars-container">
+        <!--BreadcrumbIndex-->
+        <div class="layout-navbars-breadcrumb-index">
+            <!--Logo-->
+            <template v-if="getThemeConfig.isShowLogo && getThemeConfig.layout=='transverse'">
+                <div class="layout-logo" @click="onCollapseConfigChange">
+                    <span>{$admin_logo|raw|default='admin'}</span>
+                </div>
+            </template>
+            <!--Logo end-->
+            <!--Breadcrumb-->
+            <div v-if="isShowBreadcrumb" class="layout-navbars-breadcrumb">
+                <el-icon class="layout-navbars-breadcrumb-icon" :size="16" @click="onCollapseConfigChange">
+                    <ele-expand v-show="getThemeConfig.isCollapse"></ele-expand>
+                    <ele-fold v-show="!getThemeConfig.isCollapse"></ele-fold>
+                </el-icon>
+                <el-breadcrumb class="layout-navbars-breadcrumb-hide">
+                    <transition-group name="breadcrumb">
+                        <el-breadcrumb-item>
+                            <span class="layout-navbars-breadcrumb-span">
+                                <div>{$admin_page_title|default=''}</div>
+                            </span>
+                        </el-breadcrumb-item>
+                        <el-breadcrumb-item>
+                            <span class="layout-navbars-breadcrumb-span">
+                                <div>{{state.breadcrumb}}</div>
+                            </span>
+                        </el-breadcrumb-item>
+                    </transition-group>
+                </el-breadcrumb>
+            </div>
+            <!--Breadcrumb end-->
+            <template v-if="getThemeConfig.layout=='transverse'">
+                {include file="$admin_horizontal" /}
+            </template>
+            <!--User-->
+            <div class="layout-navbars-breadcrumb-user pr15" :style="{ flex: layoutUserFlexNum }">
+                <div class="layout-navbars-breadcrumb-user-icon">
+                    <a title="打开首页" href="/" target="_blank"><i class="mdi mdi-home-circle"></i></a>
+                </div>
+                {if condition="checkUrl(url('/admin/index/clearcache'))"}
+                <div class="layout-navbars-breadcrumb-user-icon"
+                    @click="onHandleCommandClick('清空缓存|{:url('/admin/index/clearcache')}')">
+                    <a title="清空缓存"><i class="mdi mdi-delete"></i></a>
+                </div>
+                {/if}
+                <el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">
+                    <div class="layout-navbars-breadcrumb-user-icon" title="字体大小">
+                        <i class="iconfont mdi mdi-format-font"></i>
+                    </div>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item command="large"
+                                :disabled="state.disabledSize === 'large'">大</el-dropdown-item>
+                            <el-dropdown-item command="default"
+                                :disabled="state.disabledSize === 'default'">默认</el-dropdown-item>
+                            <el-dropdown-item command="small"
+                                :disabled="state.disabledSize === 'small'">小</el-dropdown-item>
+                            <el-dropdown-item command="small2"
+                                :disabled="state.disabledSize === 'small'">{{disabledSize}}</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
+                <div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSetingClick" title="布局设置">
+                    <i class="iconfont mdi mdi-auto-fix"></i>
+                </div>
+                {:\\tpext\\common\\ExtLoader::trigger('topbar_right_links')}
+                <el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
+                    <span class="layout-navbars-breadcrumb-user-link">
+                        <img src="{$admin_user.avatar|default='/assets/lightyearadmin/images/no-avatar.jpg'}"
+                            class="layout-navbars-breadcrumb-user-link-photo mr5" />
+                        {$admin_user.name|default='Tpext'}
+                        <el-icon class="el-icon--right">
+                            <ele-ArrowDown />
+                        </el-icon>
+                    </span>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item command="个人中心|{:url('/admin/index/profile')}">个人中心</el-dropdown-item>
+                            <el-dropdown-item command="修改密码|{:url('/admin/index/changepwd')}">修改密码</el-dropdown-item>
+                            <el-dropdown-item divided command="logOut">退出登录</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
+            </div>
+            <!--User end-->
+        </div>
+        <!--BreadcrumbIndex end-->
+        <!--TagsView-->
+        <template v-if="setShowTagsView">
+            <div class="layout-navbars-tagsview"
+                :class="{ 'layout-navbars-tagsview-shadow': getThemeConfig.layout === 'classic' }">
+                <div @click="toScroll(true)" class="layout-navbars-to-left hidden-xs-only">
+                    <el-icon><ele-arrow-left></ele-arrow-left></el-icon>
+                </div>
+                <el-scrollbar ref="scrollbarRef" @wheel.prevent="onHandleScroll">
+                    <ul class="layout-navbars-tagsview-ul" :class="setTagsStyle">
+                        <li v-for="(v, k) in state.tagsViewList" :key="k" class="layout-navbars-tagsview-ul-li"
+                            :data-url="v.url" :class="{ 'is-active': isActive(v) }"
+                            @contextmenu.prevent="onContextmenu(v, $event)" @mousedown="onMousedownMenu(v, $event)"
+                            @dblclick="refreshCurrentTagsView(v)" @click="onTagsClick(v, k)" :ref="
+                (el) => {
+                  if (el) tagsRefs[k] = el;
+                }
+              ">
+                            <span>{{ setTagsViewNameI18n(v) }}</span>
+                            <template v-if="isActive(v)">
+                                <el-icon title="刷新" :size="13" class="ml5" @click.stop="refreshCurrentTagsView(v)">
+                                    <ele-refresh-right></ele-refresh-right>
+                                </el-icon>
+                                <el-icon title="关闭" v-if="!v.meta.isAffix" :size="13"
+                                    class="layout-navbars-tagsview-ul-li-icon layout-icon-active"
+                                    @click.stop="closeCurrentTagsView(v)">
+                                    <ele-close></ele-close>
+                                </el-icon>
+                            </template>
+                            <el-icon title="关闭" v-if="!v.meta.isAffix" :size="13"
+                                class="layout-navbars-tagsview-ul-li-icon layout-icon-three"
+                                @click.stop="closeCurrentTagsView(v)">
+                                <ele-close></ele-close>
+                            </el-icon>
+                        </li>
+                    </ul>
+                </el-scrollbar>
+                <div @click="toScroll(false)" class="layout-navbars-to-right hidden-xs-only">
+                    <el-icon><ele-arrow-right></ele-arrow-right></el-icon>
+                </div>
+                <!--Contextmenu-->
+                <transition ref="contextmenuRef" name="el-zoom-in-center">
+                    <div aria-hidden="true" class="el-dropdown__popper el-popper is-light is-pure custom-contextmenu"
+                        role="tooltip" data-popper-placement="bottom"
+                        :style="`top: ${dropdowns.y + 5}px;left: ${dropdowns.x}px;`" :key="Math.random()"
+                        v-show="state.isShow">
+                        <ul class="el-dropdown-menu">
+                            <template v-for="(v, k) in state.dropdownList">
+                                <li class="el-dropdown-menu__item" aria-disabled="false" tabindex="-1" :key="k"
+                                    v-if="!v.affix" @click="currentContextmenuClick(v.contextMenuClickId)">
+                                    <el-icon style="vertical-align: middle">
+                                        <component :is="v.icon"></component>
+                                    </el-icon>
+                                    <span>{{ v.txt }}</span>
+                                </li>
+                            </template>
+                        </ul>
+                        <div class="el-popper__arrow" :style="{ left: `${state.arrowLeft}px` }"></div>
+                    </div>
+                </transition>
+                <!--Contextmenu end-->
+            </div>
+        </template>
+        <!--TagsView end-->
+    </div>
+    <!--NavBarsIndex end-->
+</el-header>

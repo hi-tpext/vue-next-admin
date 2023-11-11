@@ -1,0 +1,26 @@
+<div class="layout-columns-aside">
+    <el-scrollbar>
+        <ul @mouseleave="onColumnsAsideMenuMouseleave()">
+            <li v-for="(v, k) in state.topMenu" :key="k" @click="onColumnsAsideMenuClick(v, k)"
+                @mouseenter="onColumnsAsideMenuMouseenter(v, k)" :ref="
+                    (el) => {
+                        if (el) columnsAsideOffsetTopRefs[k] = el;
+                    }
+                "
+                :class="{ 'layout-columns-active': state.liIndex === k, 'layout-columns-hover': state.liHoverIndex === k && state.liIndex !== k }"
+                :title="v.name">
+                <div :class="themeConfig.columnsAsideLayout">
+                    <i class="iconfont" :class="v.icon"></i>
+                    <div class="columns-vertical-title font12">
+                        {{
+                        v.name.length >= 4
+                        ? v.name.substr(0, themeConfig.columnsAsideLayout === 'columns-vertical' ? 4 : 3)
+                        : v.name
+                        }}
+                    </div>
+                </div>
+            </li>
+            <div ref="columnsAsideActiveRef" :class="themeConfig.columnsAsideStyle"></div>
+        </ul>
+    </el-scrollbar>
+</div>
