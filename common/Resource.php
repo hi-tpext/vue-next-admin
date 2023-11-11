@@ -48,4 +48,25 @@ class Resource extends baseResource
             ]);
         }
     }
+
+    public function uninstall($runSql = true)
+    {
+        $indexView = $this->getRoot() . implode(DIRECTORY_SEPARATOR, ['admin', 'view', 'index', 'index.html']);
+        $loginView = $this->getRoot() . implode(DIRECTORY_SEPARATOR, ['admin', 'view', 'index', 'login.html']);
+
+        $adminConfig = adminModule::getInstance()->getConfig();
+
+        $adminIndexView = $adminConfig['index_page_style'] ?? '';
+        $adminLoginxView = $adminConfig['login_page_style'] ?? '';
+
+        if (
+            $adminIndexView == str_replace(app()->getRootPath(), '__WWW__', $indexView)
+            || $adminLoginxView == str_replace(app()->getRootPath(), '__WWW__', $loginView)
+        ) { //本扩展提供的index主页或登录样式正在被使用
+            $this->errors[] = new \Exception('本扩展的index模板或login模板正被使用，请修改[后台框架]配置中修改模板为其他，后再卸载');
+            return false;
+        }
+
+        return parent::uninstall($runSql);
+    }
 }
