@@ -2,9 +2,10 @@
 
 namespace vuenextadmin\common;
 
+use tpext\think\App;
+use tpext\think\View;
 use tpext\common\Resource as baseResource;
 use tpext\myadmin\common\Module as adminModule;
-use tpext\think\View;
 
 class Resource extends baseResource
 {
@@ -32,7 +33,7 @@ class Resource extends baseResource
 
         $adminIndexView = $adminConfig['index_page_style'] ?? '';
 
-        if ($adminIndexView == str_replace(app()->getRootPath(), '__WWW__', $indexView)) { //本扩展提供的index主页样式正在被使用
+        if ($adminIndexView == str_replace(App::getRootPath(), '__WWW__', $indexView)) { //本扩展提供的index主页样式正在被使用
             $admin_components_path = $this->getRoot() . implode(DIRECTORY_SEPARATOR, ['admin', 'view', 'components']);
 
             $config = $this->getConfig();
@@ -60,8 +61,8 @@ class Resource extends baseResource
         $adminLoginxView = $adminConfig['login_page_style'] ?? '';
 
         if (
-            $adminIndexView == str_replace(app()->getRootPath(), '__WWW__', $indexView)
-            || $adminLoginxView == str_replace(app()->getRootPath(), '__WWW__', $loginView)
+            $adminIndexView == str_replace(App::getRootPath(), '__WWW__', $indexView)
+            || $adminLoginxView == str_replace(App::getRootPath(), '__WWW__', $loginView)
         ) { //本扩展提供的index主页或登录样式正在被使用
             $this->errors[] = new \Exception('本扩展的index模板或login模板正被使用，请修改[后台框架]配置中修改模板为其他，后再卸载');
             return false;
