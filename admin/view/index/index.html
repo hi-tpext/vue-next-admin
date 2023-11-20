@@ -9,7 +9,7 @@
   <title>首页 - {$admin_page_title|default=''}</title>
   <link rel="icon" href="{$admin_favicon|default=''}" type="image/ico">
   <meta name="description" content="{$admin_page_description|default=''}">
-  <link rel="stylesheet" href="/assets/elementplus/theme/index.css?v={$admin_assets_ver|default='1.0'}" />
+  <link rel="stylesheet" href="/assets/vuenextadmin/theme/index.css?v={$admin_assets_ver|default='1.0'}" />
   <link rel="stylesheet"
     href="/assets/lightyearadmin/css/materialdesignicons.min.css?v={$admin_assets_ver|default='1.0'}">
 </head>
@@ -88,37 +88,37 @@
     charset="utf-8"></script>
   <script type="text/javascript" src="/assets/tpextbuilder/js/layer/layer.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/vue.global.prod.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/vue.global.prod.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/index.full.min.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/index.full.min.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/icons.min.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/icons.min.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/axios.min.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/axios.min.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/vue-demi.iife.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/vue-demi.iife.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/mitt.umd.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/mitt.umd.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/pinia.iife.prod.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/pinia.iife.prod.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/Sortable.min.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/Sortable.min.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/lib/locale/zh-cn.min.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/lib/locale/zh-cn.min.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/js/index.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/js/index.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/utils/storage.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/utils/storage.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/utils/watermark.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/utils/watermark.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/utils/mitt.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/utils/mitt.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/utils/theme.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/utils/theme.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/stores/themeConfig.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/stores/themeConfig.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
-  <script type="text/javascript" src="/assets/elementplus/stores/tagsViewRoutes.js?v={$admin_assets_ver|default='1.0'}"
+  <script type="text/javascript" src="/assets/vuenextadmin/stores/tagsViewRoutes.js?v={$admin_assets_ver|default='1.0'}"
     charset="utf-8"></script>
   <script type="text/javascript">
     const { createApp, computed, ref, reactive, onBeforeMount, onMounted, onUnmounted, nextTick, watch } = Vue;
@@ -1023,7 +1023,7 @@
             document.getElementById('app').className = '';
             initSortable();
 
-            let wartermark_text = '{$wartermark_text}';
+            let wartermark_text = "{$wartermark_text|default=''}";
             if (wartermark_text) {
               watermark.set(wartermark_text + " - {$admin_user.username|default=''}");
             }

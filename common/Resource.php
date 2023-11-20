@@ -8,7 +8,7 @@ use tpext\think\View;
 
 class Resource extends baseResource
 {
-    protected $version = '1.0.1';
+    protected $version = '1.0.2';
 
     protected $name = 'vue.next.admin';
 
