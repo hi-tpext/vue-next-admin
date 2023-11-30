@@ -4,6 +4,7 @@ namespace vuenextadmin\common;
 
 use tpext\think\App;
 use tpext\think\View;
+use tpext\common\ExtLoader;
 use tpext\common\Resource as baseResource;
 use tpext\myadmin\common\Module as adminModule;
 
@@ -47,6 +48,21 @@ class Resource extends baseResource
                 'admin_horizontal' => $admin_components_path . DIRECTORY_SEPARATOR . 'horizontal.html',
                 'wartermark_text' => $config['wartermark_text'],
             ]);
+
+            if (ExtLoader::isWebman()) {
+                //webman 每次请求结束后清除View::clearShareVars()，需要监听请求开始事件重新共享
+                ExtLoader::watch('tpext_webman_run', function () use ($admin_components_path, $config) {
+                    View::share([
+                        'admin_aside' => $admin_components_path . DIRECTORY_SEPARATOR . 'aside.html',
+                        'admin_setting' => $admin_components_path . DIRECTORY_SEPARATOR . 'setting.html',
+                        'admin_header' => $admin_components_path . DIRECTORY_SEPARATOR . 'header.html',
+                        'admin_main' => $admin_components_path . DIRECTORY_SEPARATOR . 'main.html',
+                        'admin_columns_aside' => $admin_components_path . DIRECTORY_SEPARATOR . 'columns-aside.html',
+                        'admin_horizontal' => $admin_components_path . DIRECTORY_SEPARATOR . 'horizontal.html',
+                        'wartermark_text' => $config['wartermark_text'],
+                    ]);
+                });
+            }
         }
     }
 
