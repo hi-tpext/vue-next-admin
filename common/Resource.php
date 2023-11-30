@@ -9,7 +9,7 @@ use tpext\myadmin\common\Module as adminModule;
 
 class Resource extends baseResource
 {
-    protected $version = '1.0.2';
+    protected $version = '1.0.3';
 
     protected $name = 'vue.next.admin';
 
