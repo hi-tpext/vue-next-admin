@@ -30,15 +30,25 @@ class Resource extends baseResource
         adminModule::getInstance()->addIndexView($indexView, 'vue-next-admin样式');
         adminModule::getInstance()->addLoginView($loginView, 'vue-next-admin样式');
 
-        $adminConfig = adminModule::getInstance()->getConfig();
+        $this->shareVars();
 
+        if (ExtLoader::isWebman()) {
+            //webman 每次请求结束后清除View::clearShareVars()，需要监听请求开始事件重新共享
+            ExtLoader::watch('tpext_webman_run', function () {
+                $this->shareVars();
+            });
+        }
+    }
+
+    public function shareVars()
+    {
+        $indexView = $this->getRoot() . implode(DIRECTORY_SEPARATOR, ['admin', 'view', 'index', 'index.html']);
+        $adminConfig = adminModule::getInstance()->getConfig();
         $adminIndexView = $adminConfig['index_page_style'] ?? '';
 
         if ($adminIndexView == str_replace(App::getRootPath(), '__WWW__', $indexView)) { //本扩展提供的index主页样式正在被使用
             $admin_components_path = $this->getRoot() . implode(DIRECTORY_SEPARATOR, ['admin', 'view', 'components']);
-
             $config = $this->getConfig();
-
             View::share([
                 'admin_aside' => $admin_components_path . DIRECTORY_SEPARATOR . 'aside.html',
                 'admin_setting' => $admin_components_path . DIRECTORY_SEPARATOR . 'setting.html',
@@ -48,21 +58,6 @@ class Resource extends baseResource
                 'admin_horizontal' => $admin_components_path . DIRECTORY_SEPARATOR . 'horizontal.html',
                 'wartermark_text' => $config['wartermark_text'],
             ]);
-
-            if (ExtLoader::isWebman()) {
-                //webman 每次请求结束后清除View::clearShareVars()，需要监听请求开始事件重新共享
-                ExtLoader::watch('tpext_webman_run', function () use ($admin_components_path, $config) {
-                    View::share([
-                        'admin_aside' => $admin_components_path . DIRECTORY_SEPARATOR . 'aside.html',
-                        'admin_setting' => $admin_components_path . DIRECTORY_SEPARATOR . 'setting.html',
-                        'admin_header' => $admin_components_path . DIRECTORY_SEPARATOR . 'header.html',
-                        'admin_main' => $admin_components_path . DIRECTORY_SEPARATOR . 'main.html',
-                        'admin_columns_aside' => $admin_components_path . DIRECTORY_SEPARATOR . 'columns-aside.html',
-                        'admin_horizontal' => $admin_components_path . DIRECTORY_SEPARATOR . 'horizontal.html',
-                        'wartermark_text' => $config['wartermark_text'],
-                    ]);
-                });
-            }
         }
     }
 
@@ -85,5 +80,10 @@ class Resource extends baseResource
         }
 
         return parent::uninstall($runSql);
+    }
+
+    public function enabled($state)
+    {
+        return false;
     }
 }
