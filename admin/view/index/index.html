@@ -23,15 +23,15 @@
           :element-loading-background="getThemeConfig.isIsDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)'"
           class="layout-container">
           <!--LayoutAside-->
-          {include file="$admin_aside" /}
+          {include file="components/aside" /}
           <!--LayoutAside end-->
           <el-container class="layout-container-view h100">
             <el-scrollbar ref="layoutScrollbarRef" class="layout-backtop">
               <!--LayoutHeader-->
-              {include file="$admin_header" /}
+              {include file="components/header" /}
               <!--LayoutHeader end-->
               <!--LayoutMain-->
-              {include file="$admin_main" /}
+              {include file="components/main" /}
               <!--LayoutMain end-->
             </el-scrollbar>
           </el-container>
@@ -45,18 +45,18 @@
           :element-loading-background="getThemeConfig.isIsDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)'"
           class="layout-container">
           <!--ColumnsAside-->
-          {include file="$admin_columns_aside" /}
+          {include file="components/columns-aside" /}
           <!--ColumnsAside end-->
           <el-container class="layout-columns-warp layout-container-view h100">
             <!--LayoutAside-->
-            {include file="$admin_aside" /}
+            {include file="components/aside" /}
             <!--LayoutAside end-->
             <el-scrollbar ref="layoutScrollbarRef" class="layout-backtop">
               <!--LayoutHeader-->
-              {include file="$admin_header" /}
+              {include file="components/header" /}
               <!--LayoutHeader end-->
               <!--LayoutMain-->
-              {include file="$admin_main" /}
+              {include file="components/main" /}
               <!--LayoutMain end-->
             </el-scrollbar>
           </el-container>
@@ -70,17 +70,17 @@
           :element-loading-background="getThemeConfig.isIsDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.4)'"
           class="layout-container flex-center layout-backtop">
           <!--LayoutHeader-->
-          {include file="$admin_header" /}
+          {include file="components/header" /}
           <!--LayoutHeader end-->
           <!--LayoutMain-->
-          {include file="$admin_main" /}
+          {include file="components/main" /}
           <!--LayoutMain end-->
         </el-container>
       </template>
       <!--layout-transverse end-->
 
       <!--Settings-->
-      {include file="$admin_setting" /}
+      {include file="components/setting" /}
       <!--Settings end-->
     </el-config-provider>
   </div>
@@ -958,7 +958,7 @@
         const setColumnsAsideMove = (k) => {
           if (k === undefined) return false;
           state.liIndex = k;
-          if (columnsAsideActiveRef.value) {
+          if (columnsAsideActiveRef.value && columnsAsideOffsetTopRefs.value[k]) {
             columnsAsideActiveRef.value.style.top = `${columnsAsideOffsetTopRefs.value[k].offsetTop + state.difference}px`;
           }
         };

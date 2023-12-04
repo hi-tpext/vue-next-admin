@@ -126,8 +126,8 @@ window.useThemeConfig = Pinia.defineStore('themeConfig', {
 			 * 注意：为了演示，切换布局时，颜色会被还原成默认，代码位置：/@/layout/navBars/topBar/setings.vue
 			 * 中的 `initSetLayoutChange(设置布局切换，重置主题样式)` 方法
 			 */
-			// 布局切换：可选值"<defaults|classic|transverse|columns>"，默认 defaults
-			layout: 'defaults',
+			// 布局切换：可选值"<defaults|classic|transverse|columns>"，默认 columns
+			layout: 'columns',
 
 			/**
 			 * 后端控制路由

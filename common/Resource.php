@@ -10,7 +10,7 @@ use tpext\myadmin\common\Module as adminModule;
 
 class Resource extends baseResource
 {
-    protected $version = '1.0.3';
+    protected $version = '1.0.4';
 
     protected $name = 'vue.next.admin';
 
@@ -47,15 +47,8 @@ class Resource extends baseResource
         $adminIndexView = $adminConfig['index_page_style'] ?? '';
 
         if ($adminIndexView == str_replace(App::getRootPath(), '__WWW__', $indexView)) { //本扩展提供的index主页样式正在被使用
-            $admin_components_path = $this->getRoot() . implode(DIRECTORY_SEPARATOR, ['admin', 'view', 'components']);
             $config = $this->getConfig();
             View::share([
-                'admin_aside' => $admin_components_path . DIRECTORY_SEPARATOR . 'aside.html',
-                'admin_setting' => $admin_components_path . DIRECTORY_SEPARATOR . 'setting.html',
-                'admin_header' => $admin_components_path . DIRECTORY_SEPARATOR . 'header.html',
-                'admin_main' => $admin_components_path . DIRECTORY_SEPARATOR . 'main.html',
-                'admin_columns_aside' => $admin_components_path . DIRECTORY_SEPARATOR . 'columns-aside.html',
-                'admin_horizontal' => $admin_components_path . DIRECTORY_SEPARATOR . 'horizontal.html',
                 'wartermark_text' => $config['wartermark_text'],
             ]);
         }
